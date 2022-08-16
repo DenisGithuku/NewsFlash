@@ -1,0 +1,120 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+    id 'com.google.devtools.ksp' version "1.6.10-1.0.2"
+
+}
+
+apply from: 'dependencies.gradle'
+
+android {
+    namespace 'com.githukudenis.newsflash'
+    compileSdk 32
+
+    defaultConfig {
+        applicationId "com.githukudenis.newsflash"
+        minSdk 24
+        targetSdk 32
+        versionCode 1
+        versionName "1.0"
+
+        buildConfigField("API_KEY", "String", API_KEY)
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary true
+        }
+    }
+
+    kotlin {
+        sourceSets {
+            debug {
+                kotlin.srcDir("build/generated/ksp/debug/kotlin")
+            }
+            release {
+                kotlin.srcDir("build/generated/ksp/release/kotlin")
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion compose_version
+    }
+    packagingOptions {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
+}
+
+dependencies {
+    // Core
+    implementation androidSdkDependencies.core
+
+    // Image Loading
+    implementation landscapist.glide
+
+    // Api call
+    implementation apiDependencies.retrofit
+    implementation apiDependencies.gson
+    implementation apiDependencies.okhttp
+    implementation apiDependencies.okhttpLogging
+
+    //Ksp Compose Destinations
+    implementation ksp.kspComposeDestinationsCore
+    ksp ksp.kspComposeDestinations
+
+    //Coroutines
+    implementation coroutinesDependencies.core
+    implementation coroutinesDependencies.coreAndroid
+
+    // Compose
+    implementation composeDependencies.viewmodelCompose
+    implementation composeDependencies.navigationCompose
+    implementation composeDependencies.flowLayout
+    implementation composeDependencies.runtime
+    implementation composeDependencies.activity
+    implementation composeDependencies.composeUi
+    implementation composeDependencies.composeUiToolingPreview
+    implementation composeDependencies.material
+
+    // Lifecycle
+    implementation lifecycleDependencies.viewmodelktx
+    implementation lifecycleDependencies.runtimektx
+
+    //Dagger Hilt
+    implementation daggerHilt.hiltAndroid
+    implementation daggerHilt.lifecycleViewmodel
+    implementation daggerHilt.hiltComposeNavigation
+    kapt daggerHilt.hiltCompilerKapt
+    kapt daggerHilt.hiltAndroidCompilerKapt
+
+    //Testing
+    testImplementation testDependencies.junit
+    androidTestImplementation testDependencies.testExt
+    androidTestImplementation testDependencies.espresso
+    androidTestImplementation testDependencies.composeUiTest
+    debugImplementation testDependencies.composeUiToolingTest
+    debugImplementation testDependencies.composeUiTestManifest
+}
