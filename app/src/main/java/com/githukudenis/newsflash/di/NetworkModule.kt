@@ -1,6 +1,10 @@
 package com.githukudenis.newsflash.di
 
 import com.githukudenis.newsflash.data.data_source.NewsApiService
+import com.githukudenis.newsflash.data.repository.NewsRepositoryImpl
+import com.githukudenis.newsflash.domain.interactors.GetTopHeadlineSources
+import com.githukudenis.newsflash.domain.interactors.NewsInteractors
+import com.githukudenis.newsflash.domain.repository.NewsRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -43,6 +47,20 @@ object NetworkModule {
             .client(okHttpClient)
             .build()
             .create(NewsApiService::class.java)
+    }
+
+    @Provides
+    @ViewModelScoped
+    fun provideNewsRepository(
+        newsApiService: NewsApiService
+    ): NewsRepository {
+        return NewsRepositoryImpl(newsApiService = newsApiService)
+    }
+
+    @Provides
+    @ViewModelScoped
+    fun provideNewsInteractors(newsRepository: NewsRepository): NewsInteractors {
+        return NewsInteractors(getTopHeadlineSources = GetTopHeadlineSources(newsRepository = newsRepository))
     }
 
 }

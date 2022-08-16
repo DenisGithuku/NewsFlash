@@ -3,29 +3,33 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
-    id 'com.google.devtools.ksp' version "1.6.10-1.0.2"
+    id 'com.google.devtools.ksp' version "1.6.21-1.0.5"
 
 }
 
 apply from: 'dependencies.gradle'
 
+def apiKeyPropertiesFile = rootProject.file("api_key.properties")
+def apiKeyProperties = new Properties()
+apiKeyProperties.load(new FileInputStream(apiKeyPropertiesFile))
+
 android {
     namespace 'com.githukudenis.newsflash'
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.githukudenis.newsflash"
         minSdk 24
-        targetSdk 32
+        targetSdk 33
         versionCode 1
         versionName "1.0"
-
-        buildConfigField("API_KEY", "String", API_KEY)
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary true
         }
+
+        buildConfigField("String", "NEWS_API_KEY", apiKeyProperties['NEWS_API_KEY'])
     }
 
     kotlin {
