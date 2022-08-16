@@ -58,8 +58,11 @@ fun CustomSwitch(
 
         drawCircle(
             center = Offset(
-                x = (size.width - gapBetweenTrackAndThumb) y =
-            )
+                x = size.width - gapBetweenTrackAndThumb.toPx(),
+                y = size.height / 2 - gapBetweenTrackAndThumb.toPx()
+            ),
+            radius = height.toPx(),
+            color = color.value
         )
     }
 
