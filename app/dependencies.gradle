@@ -1,5 +1,6 @@
 ext {
     compose_version = "1.2.0-rc01"
+    material_icons = "1.1.0"
     retrofit_version = "2.9.0"
     okhttp_version = "5.0.0-alpha.2"
     landscapist = [glide: "com.github.skydoves:landscapist-glide:1.4.3"]
@@ -44,4 +45,8 @@ ext {
     composeDestinationsVersion = "1.1.2-beta"
     ksp = [kspComposeDestinationsCore: "io.github.raamcosta." + "compose-destinations:core:${composeDestinationsVersion}",
            kspComposeDestinations    : "io.github.raamcosta.compose-destinations:ksp:${composeDestinationsVersion}"]
+
+    material = [
+            materialExtendedIcons: "androidx.compose.material:material-icons-extended:${material_icons}"
+    ]
 }

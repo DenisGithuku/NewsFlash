@@ -1,5 +1,10 @@
 package com.githukudenis.newsflash.domain.model
 
+import android.os.Parcel
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class Article(
     val author: String,
     val content: String,
@@ -9,4 +14,4 @@ data class Article(
     val title: String,
     val url: String,
     val urlToImage: String
-)
+): Parcelable

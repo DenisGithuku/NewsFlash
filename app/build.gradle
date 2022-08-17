@@ -2,8 +2,12 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
+    id 'kotlin-parcelize'
     id 'dagger.hilt.android.plugin'
     id 'com.google.devtools.ksp' version "1.6.21-1.0.5"
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
+
 
 }
 
@@ -89,6 +93,10 @@ dependencies {
     implementation ksp.kspComposeDestinationsCore
     ksp ksp.kspComposeDestinations
 
+    //Firebase crashlytics
+    implementation 'com.google.firebase:firebase-crashlytics:18.2.12'
+    implementation 'com.google.firebase:firebase-analytics:21.1.0'
+
     //Coroutines
     implementation coroutinesDependencies.core
     implementation coroutinesDependencies.coreAndroid
@@ -113,6 +121,9 @@ dependencies {
     implementation daggerHilt.hiltComposeNavigation
     kapt daggerHilt.hiltCompilerKapt
     kapt daggerHilt.hiltAndroidCompilerKapt
+
+    //Material
+    implementation material.materialExtendedIcons
 
     //Testing
     testImplementation testDependencies.junit

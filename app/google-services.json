@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "709662889632",
+    "project_id": "newsflash-1a93d",
+    "storage_bucket": "newsflash-1a93d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:709662889632:android:eca2fad6e39aa5372adbc5",
+        "android_client_info": {
+          "package_name": "com.githukudenis.newsflash"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "709662889632-r5gfk4glthah69evr6p68b2mhkqnik27.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8MepOdv19zU0M3YqAL8W0lY-pNwmnYtg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "709662889632-r5gfk4glthah69evr6p68b2mhkqnik27.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
