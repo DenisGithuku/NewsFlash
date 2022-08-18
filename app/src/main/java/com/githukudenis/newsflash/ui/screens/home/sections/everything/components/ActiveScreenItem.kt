@@ -1,4 +1,4 @@
-package com.githukudenis.newsflash.ui.screens.articles.components
+package com.githukudenis.newsflash.ui.screens.home.sections.articles.components
 
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*

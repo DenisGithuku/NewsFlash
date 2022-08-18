@@ -10,11 +10,11 @@ import retrofit2.http.Query
 
 interface NewsApiService {
 
-    @GET("top-articles/sources")
+    @GET("top-headlines/sources")
     @Headers("X-Api-Key: ${BuildConfig.NEWS_API_KEY}")
     suspend fun getTopHeadlinesSources(): TopHeadlinesSourcesDTO
 
-    @GET("top-articles")
+    @GET("top-headlines")
     @Headers("X-Api-Key: ${BuildConfig.NEWS_API_KEY}")
     suspend fun getTopHeadlines(@Query("sources") source: String): ArticleDTO
 }
