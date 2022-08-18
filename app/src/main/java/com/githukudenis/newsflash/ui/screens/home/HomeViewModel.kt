@@ -1,5 +1,6 @@
-package com.githukudenis.newsflash.ui.screens.headlines
+package com.githukudenis.newsflash.ui.screens.home
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.githukudenis.newsflash.common.NetworkResource
@@ -12,31 +13,18 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HeadlinesViewModel @Inject constructor(
+class HomeViewModel @Inject constructor(
     private val newsInteractors: NewsInteractors,
 ) : ViewModel() {
 
-    private var _uiState: MutableStateFlow<HeadlinesUiState> = MutableStateFlow(HeadlinesUiState())
-    val uiState: StateFlow<HeadlinesUiState> get() = _uiState
+    private var _uiState: MutableStateFlow<HomeUiState> = MutableStateFlow(HomeUiState())
+    val uiState: StateFlow<HomeUiState> get() = _uiState
+
+    private var headlinesJob: Job? = null
+    private val errorMessages: MutableList<ErrorMessage> = mutableListOf()
 
     init {
         getTopHeadlineSources()
-    }
-
-    private var headlinesJob: Job? = null
-
-    fun onEvent(event: HeadlinesEvent) {
-        when (event) {
-            is HeadlinesEvent.ChangeSource -> {
-                _uiState.update {
-                    it.copy(selectedSource = event.source)
-                }
-                getTopHeadlines(event.source.id)
-            }
-            is HeadlinesEvent.Search -> {
-
-            }
-        }
     }
 
     private fun getTopHeadlineSources() {
@@ -44,9 +32,10 @@ class HeadlinesViewModel @Inject constructor(
         headlinesJob = newsInteractors.getTopHeadlineSources().onEach { result ->
             when (result) {
                 is NetworkResource.Error -> {
+                    errorMessages.add(ErrorMessage(error = result.error))
                     _uiState.update {
                         it.copy(
-                            sourcesLoading = false, error = result.error.message
+                            sourcesLoading = false, errorMessages = errorMessages
                         )
                     }
                 }
@@ -71,6 +60,25 @@ class HeadlinesViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
+    fun onEvent(homeEvent: HomeEvent) {
+        when (homeEvent) {
+            is HomeEvent.ChangeActiveScreen -> {
+                _uiState.update {
+                    it.copy(
+                        activeScreen = homeEvent.activeScreen
+                    )
+                }
+            }
+            is HomeEvent.ChangeSource -> {
+                _uiState.update {
+                    it.copy(selectedSource = homeEvent.source)
+                }
+                getTopHeadlines(homeEvent.source.id)
+            }
+            is HomeEvent.Search -> TODO()
+        }
+    }
+
     private fun getTopHeadlines(
         source: String,
     ) {
@@ -78,9 +86,11 @@ class HeadlinesViewModel @Inject constructor(
             newsInteractors.getTopHeadlines(source).collect { result ->
                 when (result) {
                     is NetworkResource.Error -> {
+                        errorMessages.add(ErrorMessage(error = result.error))
                         _uiState.update {
                             it.copy(
-                                headlinesLoading = false, error = result.error.message
+                                headlinesLoading = false,
+                                errorMessages = errorMessages
                             )
                         }
                     }

@@ -1,4 +1,4 @@
-package com.githukudenis.newsflash.ui.screens.headlines.components
+package com.githukudenis.newsflash.ui.screens.home.sections.headlines.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
