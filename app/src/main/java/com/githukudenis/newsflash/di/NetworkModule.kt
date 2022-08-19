@@ -2,6 +2,7 @@ package com.githukudenis.newsflash.di
 
 import com.githukudenis.newsflash.data.data_source.NewsApiService
 import com.githukudenis.newsflash.data.repository.NewsRepositoryImpl
+import com.githukudenis.newsflash.domain.interactors.GetAllNews
 import com.githukudenis.newsflash.domain.interactors.GetTopHeadlineSources
 import com.githukudenis.newsflash.domain.interactors.GetTopHeadlines
 import com.githukudenis.newsflash.domain.interactors.NewsInteractors
@@ -60,7 +61,8 @@ object NetworkModule {
     fun provideNewsInteractors(newsRepository: NewsRepository): NewsInteractors {
         return NewsInteractors(
             getTopHeadlineSources = GetTopHeadlineSources(newsRepository = newsRepository),
-            getTopHeadlines = GetTopHeadlines(newsRepository)
+            getTopHeadlines = GetTopHeadlines(newsRepository),
+            getAllNews = GetAllNews(newsRepository)
         )
     }
 

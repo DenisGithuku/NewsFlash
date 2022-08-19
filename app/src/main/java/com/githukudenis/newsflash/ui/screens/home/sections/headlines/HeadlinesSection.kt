@@ -28,7 +28,6 @@ fun HeadlinesSection(
     onSelectArticle: (Article) -> Unit,
     headlines: List<Article>,
 ) {
-
     val sourcesListState = rememberLazyListState()
     val headlinesListState = rememberLazyListState()
     val scope = rememberCoroutineScope()
