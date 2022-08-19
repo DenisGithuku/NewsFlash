@@ -1,5 +1,6 @@
 package com.githukudenis.newsflash.ui.screens.home.sections.headlines.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
@@ -32,7 +33,10 @@ fun ArticleItem(
 ) {
     Column(modifier = modifier
         .fillMaxSize()
-        .padding(bottom = 5.dp)) {
+        .padding(bottom = 5.dp)
+        .clickable {
+            onSelectArticle(article)
+        }) {
         Box(modifier = modifier.clip(RoundedCornerShape(12.dp))) {
             GlideImage(
                 imageModel = article.urlToImage,

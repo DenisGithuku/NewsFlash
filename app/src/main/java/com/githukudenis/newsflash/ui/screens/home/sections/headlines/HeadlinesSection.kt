@@ -1,5 +1,7 @@
 package com.githukudenis.newsflash.ui.screens.home.sections.headlines
 
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -20,6 +22,7 @@ import com.githukudenis.newsflash.ui.screens.home.sections.headlines.components.
 import com.githukudenis.newsflash.ui.screens.home.HomeViewModel
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HeadlinesSection(
     headlineSources: List<SourceX>,
@@ -63,7 +66,7 @@ fun HeadlinesSection(
             itemsIndexed(headlines) { index, article ->
                 ArticleItem(article = article, onSelectArticle = { selectedArticle ->
                        onSelectArticle(selectedArticle)
-                })
+                }, modifier = Modifier.animateItemPlacement(tween(durationMillis = 500)))
                 if (index < headlines.size - 1) {
                     Divider(color = Color.Black.copy(alpha = 0.25f))
                     Spacer(modifier = Modifier.height(20.dp))
