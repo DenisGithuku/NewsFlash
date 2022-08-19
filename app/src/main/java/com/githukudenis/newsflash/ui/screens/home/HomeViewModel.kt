@@ -1,10 +1,10 @@
 package com.githukudenis.newsflash.ui.screens.home
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.githukudenis.newsflash.common.NetworkResource
 import com.githukudenis.newsflash.domain.interactors.NewsInteractors
+import com.githukudenis.newsflash.ui.util.ActiveScreen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -21,6 +21,7 @@ class HomeViewModel @Inject constructor(
     val uiState: StateFlow<HomeUiState> get() = _uiState
 
     private var headlinesJob: Job? = null
+    private var allArticlesJob: Job? = null
     private val errorMessages: MutableList<ErrorMessage> = mutableListOf()
 
     init {
@@ -30,6 +31,7 @@ class HomeViewModel @Inject constructor(
     private fun getTopHeadlineSources() {
         headlinesJob?.cancel()
         headlinesJob = newsInteractors.getTopHeadlineSources().onEach { result ->
+            errorMessages.clear()
             when (result) {
                 is NetworkResource.Error -> {
                     errorMessages.add(ErrorMessage(error = result.error))
@@ -68,6 +70,10 @@ class HomeViewModel @Inject constructor(
                         activeScreen = homeEvent.activeScreen
                     )
                 }
+
+                if (homeEvent.activeScreen == ActiveScreen.EVERYTHING) {
+                    getAllNews()
+                }
             }
             is HomeEvent.ChangeSource -> {
                 _uiState.update {
@@ -84,13 +90,13 @@ class HomeViewModel @Inject constructor(
     ) {
         viewModelScope.launch(Dispatchers.IO) {
             newsInteractors.getTopHeadlines(source).collect { result ->
+                errorMessages.clear()
                 when (result) {
                     is NetworkResource.Error -> {
                         errorMessages.add(ErrorMessage(error = result.error))
                         _uiState.update {
                             it.copy(
-                                headlinesLoading = false,
-                                errorMessages = errorMessages
+                                headlinesLoading = false, errorMessages = errorMessages
                             )
                         }
                     }
@@ -111,5 +117,39 @@ class HomeViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    private fun getAllNews() {
+        allArticlesJob?.cancel()
+        allArticlesJob = newsInteractors.getAllNews(_uiState.value.domains).onEach { result ->
+            errorMessages.clear()
+            when(result) {
+                is NetworkResource.Error -> {
+                    errorMessages.add(ErrorMessage(error = result.error))
+                    _uiState.update {
+                        it.copy(
+                            errorMessages = errorMessages,
+                            allArticlesLoading = false
+                        )
+                    }
+                }
+                is NetworkResource.Loading -> {
+                    _uiState.update {
+                        it.copy(
+                            allArticlesLoading = true
+                        )
+                    }
+                }
+                is NetworkResource.Success -> {
+                    _uiState.update {
+                        it.copy(
+                            allNews = result.data ?: emptyList(),
+                            allArticlesLoading = false
+                        )
+                    }
+                }
+            }
+
+        }.launchIn(viewModelScope)
     }
 }

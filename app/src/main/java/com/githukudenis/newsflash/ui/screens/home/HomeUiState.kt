@@ -8,15 +8,21 @@ data class HomeUiState (
     val activeScreen: ActiveScreen = ActiveScreen.HEADLINES,
     val availableScreens: List<ActiveScreen> = listOf(ActiveScreen.HEADLINES, ActiveScreen.EVERYTHING),
     val sourcesLoading: Boolean = false,
+    val allArticlesLoading: Boolean = false,
     val headlinesLoading: Boolean = false,
     val headlineSources: List<SourceX> = emptyList(),
     val selectedSource: SourceX? = null,
     var searchQuery: String = "",
     val headlines: List<Article> = emptyList(),
-    val errorMessages: MutableList<ErrorMessage> = mutableListOf()
-) {
-    fun HomeUiState.addErrorMessage(errorMessage: ErrorMessage) = errorMessages.add(errorMessage)
-}
+    val allNews: List<Article> = emptyList(),
+    val domains: List<String> = listOf(
+        "bbc.co.uk",
+        "techcrunch.com",
+        "engadget.com",
+        "thenextweb.com"
+    ),
+    val errorMessages: List<ErrorMessage> = emptyList()
+)
 
 data class ErrorMessage(
     val error: Throwable? = null,

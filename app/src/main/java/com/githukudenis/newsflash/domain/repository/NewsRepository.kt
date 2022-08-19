@@ -8,4 +8,6 @@ interface NewsRepository {
     suspend fun getAllHeadlines(source: String): ArticleDTO
 
     suspend fun getTopHeadlineSources(): TopHeadlinesSourcesDTO
+
+    suspend fun getAllNews(domains: List<String>): ArticleDTO
 }

@@ -1,6 +1,5 @@
 package com.githukudenis.newsflash.ui.screens.home
 
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.*
@@ -45,49 +44,62 @@ fun EverythingScreen(
         ) {
             items(uiState.availableScreens) { activeScreen ->
                 ActiveScreenItem(
-                    selected = activeScreen == uiState.activeScreen,
-                    onSelect = {
+                    selected = activeScreen == uiState.activeScreen, onSelect = {
                         homeViewModel.onEvent(
                             HomeEvent.ChangeActiveScreen(
                                 activeScreen
                             )
                         )
-                    },
-                    activeScreen = activeScreen
+                    }, activeScreen = activeScreen
                 )
             }
         }
 
-        when(uiState.activeScreen) {
+
+        when (uiState.activeScreen) {
             ActiveScreen.HEADLINES -> {
                 AnimatedVisibility(visible = uiState.sourcesLoading) {
                     Box(
-                        modifier = Modifier.fillMaxWidth(),
-                        contentAlignment = Alignment.Center
+                        modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center
                     ) {
                         CircularProgressIndicator()
                     }
                 }
-                AnimatedContent(targetState = uiState.errorMessages.isNotEmpty()) {
-                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                if (uiState.errorMessages.isNotEmpty()) {
+                    Box(
+                        modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
+                    ) {
                         for (errorMessage in uiState.errorMessages) {
-                            Text(text = errorMessage.error?.message!!, textAlign = TextAlign.Center, color = Color.Red.copy(alpha = 0.6f))
+                            Text(
+                                text = errorMessage.error?.message!!,
+                                textAlign = TextAlign.Center,
+                                color = Color.Red.copy(alpha = 0.6f)
+                            )
                         }
                     }
                 }
-                HeadlinesSection(
-                    headlineSources = uiState.headlineSources,
+                HeadlinesSection(headlineSources = uiState.headlineSources,
                     selectedHeadlineSource = uiState.selectedSource,
                     onSelectHeadlineSource = { source ->
-                                       homeViewModel.onEvent(HomeEvent.ChangeSource(source))
+                        homeViewModel.onEvent(HomeEvent.ChangeSource(source))
                     },
                     headlines = uiState.headlines,
                     onSelectArticle = { article ->
                         navigator.navigate(ArticleDetailsDestination(article))
-                    }
-                )
+                    })
             }
-            ActiveScreen.EVERYTHING -> EverythingSection()
+            ActiveScreen.EVERYTHING -> {
+                AnimatedVisibility(visible = uiState.allArticlesLoading) {
+                    Box(
+                        modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator()
+                    }
+                }
+                EverythingSection(onSelectArticle = { article ->
+                    navigator.navigate(ArticleDetailsDestination(article))
+                }, allArticles = uiState.allNews)
+            }
         }
 
     }

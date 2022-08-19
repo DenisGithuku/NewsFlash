@@ -17,4 +17,8 @@ class NewsRepositoryImpl @Inject constructor(
         return newsApiService.getTopHeadlinesSources()
     }
 
+    override suspend fun getAllNews(domains: List<String>): ArticleDTO {
+        return newsApiService.getAllNews(domains)
+    }
+
 }
