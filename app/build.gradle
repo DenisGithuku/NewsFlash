@@ -101,6 +101,9 @@ dependencies {
     implementation coroutinesDependencies.core
     implementation coroutinesDependencies.coreAndroid
 
+    //accompanist
+    implementation accompanist
+
     // Compose
     implementation composeDependencies.viewmodelCompose
     implementation composeDependencies.navigationCompose

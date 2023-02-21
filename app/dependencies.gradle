@@ -4,6 +4,7 @@ ext {
     retrofit_version = "2.9.0"
     okhttp_version = "5.0.0-alpha.2"
     landscapist = [glide: "com.github.skydoves:landscapist-glide:1.4.3"]
+    accompanist = ["com.google.accompanist:accompanist-systemuicontroller:0.25.1"]
     apiDependencies = [retrofit     : "com.squareup.retrofit2:retrofit:${retrofit_version}",
                        gson         : "com.squareup.retrofit2:converter-gson:${retrofit_version}",
                        okhttp       : "com.squareup.okhttp3:okhttp:${okhttp_version}",
