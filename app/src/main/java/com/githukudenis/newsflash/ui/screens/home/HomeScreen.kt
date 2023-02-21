@@ -24,7 +24,6 @@ import com.githukudenis.newsflash.ui.util.ActiveScreen
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
-@OptIn(ExperimentalAnimationApi::class)
 @Destination(route = "everything", start = true)
 @Composable
 fun EverythingScreen(
