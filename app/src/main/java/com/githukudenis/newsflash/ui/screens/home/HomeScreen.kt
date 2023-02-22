@@ -2,7 +2,6 @@ package com.githukudenis.newsflash.ui.screens.home
 
 import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -14,11 +13,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.substring
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.githukudenis.newsflash.ui.screens.destinations.ArticleDetailsDestination
-import com.githukudenis.newsflash.ui.screens.home.sections.articles.components.ActiveScreenItem
+import com.githukudenis.newsflash.ui.screens.home.sections.everything.components.ActiveScreenItem
 import com.githukudenis.newsflash.ui.screens.home.sections.everything.EverythingSection
 import com.githukudenis.newsflash.ui.screens.home.sections.headlines.HeadlinesSection
 import com.githukudenis.newsflash.ui.util.ActiveScreen
