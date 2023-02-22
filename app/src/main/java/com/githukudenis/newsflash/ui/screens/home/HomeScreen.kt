@@ -1,5 +1,6 @@
 package com.githukudenis.newsflash.ui.screens.home
 
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.*
@@ -8,12 +9,12 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.substring
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.githukudenis.newsflash.ui.screens.destinations.ArticleDetailsDestination
@@ -32,6 +33,9 @@ fun EverythingScreen(
 
     val homeViewModel: HomeViewModel = hiltViewModel()
     val uiState = homeViewModel.uiState.collectAsState().value
+    val articles = uiState.allNews.groupBy { article -> article.publishedAt.substring(0..9) }
+
+    Log.i("grouped_articles", articles.toString())
 
     Column(modifier = Modifier.fillMaxSize()) {
         LazyRow(
@@ -97,7 +101,7 @@ fun EverythingScreen(
                 }
                 EverythingSection(onSelectArticle = { article ->
                     navigator.navigate(ArticleDetailsDestination(article))
-                }, allArticles = uiState.allNews)
+                }, groupedArticles = articles)
             }
         }
 
