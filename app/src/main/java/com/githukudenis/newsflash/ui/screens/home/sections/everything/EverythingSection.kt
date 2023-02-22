@@ -34,10 +34,9 @@ import kotlinx.coroutines.launch
 @Composable
 fun EverythingSection(
     onSelectArticle: (Article) -> Unit,
-    allArticles: List<Article>,
+    groupedArticles: Map<String, List<Article>>,
 ) {
     val articleListState = rememberLazyListState()
-    val groupedArticles = allArticles.groupBy { it.publishedAt }
     val scope = rememberCoroutineScope()
     val showScrollButtonVisible = remember {
         derivedStateOf {
